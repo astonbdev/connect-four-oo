@@ -41,10 +41,7 @@ class Game {
     top.setAttribute('id', 'column-top');
 
     // console.log("this=", this)
-    top.addEventListener('click', (evt) => {
-      console.log(this);
-      this.handleClick.call(this, this.evt)
-    });
+    top.addEventListener('click', this.handleClick.bind(this));
 
 
     for (let x = 0; x < this.WIDTH; x++) {
@@ -132,6 +129,11 @@ class Game {
   /** checkForWin: check board cell-by-cell for "does a win start here?" */
 
   checkForWin() {
+    let HEIGHT = this.HEIGHT;
+    let WIDTH = this.WIDTH;
+    let board = this.board;
+    let currPlayer = this.currPlayer;
+
     function _win(cells) {
       // Check four cells to see if they're all color of current player
       //  - cells: list of four (y, x) cells
@@ -140,10 +142,10 @@ class Game {
       return cells.every(
         ([y, x]) =>
           y >= 0 &&
-          y < this.HEIGHT &&
+          y < HEIGHT &&
           x >= 0 &&
-          x < this.WIDTH &&
-          this.board[y][x] === this.currPlayer
+          x < WIDTH &&
+          board[y][x] === currPlayer
       );
     }
 
