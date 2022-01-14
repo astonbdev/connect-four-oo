@@ -13,6 +13,7 @@ class Game {
   constructor(width, height) {
     this.WIDTH = width;
     this.HEIGHT = height;
+    this.gameOver = 0;
 
     this.currPlayer = 1; // active player: 1 or 2
     this.board = []; // array of rows, each row is array of cells  (board[y][x])
@@ -26,7 +27,7 @@ class Game {
  *   board = array of rows, each row is array of cells  (board[y][x])
  */
 
-  makeStartButton(){
+  makeStartButton() {
     const startBtn = document.createElement("button");
     startBtn.setAttribute("id", "startBtn");
     startBtn.innerText = "Start Game";
@@ -36,14 +37,32 @@ class Game {
     document.querySelector("#game").prepend(startBtn);
   }
 
-  makeGame(){
+  makeForm() {
+    const form = document.createElement("form");
+    const player1Color = document.createElement("input");
+    player1Color.setAttribute("id", "player1Color");
+    player1Color.setAttribute("placeholder");
+
+    const player2Color = document.createElement("input");
+    player2Color.setAttribute("id", "player2Color");
+    player2Color.setAttribute("placeholder");
+
+
+
+  }
+
+  makeGame() {
     this.board = [];
+    document.querySelector('#board').innerHTML = "";
+    this.gameOver = 0;
+
     this.currPlayer = 1;
     this.makeHtmlBoard();
     this.makeBoard();
 
     const strtBtn = document.querySelector("#startBtn");
     strtBtn.innerText = "Reset Game";
+
   }
 
   makeBoard() {
@@ -114,12 +133,15 @@ class Game {
 
   endGame(msg) {
     alert(msg);
+    this.gameOver = 1;
   }
 
   /** handleClick: handle click of column top to play piece */
 
   handleClick(evt) {
     // get x from ID of clicked cell
+    if (this.gameOver) return;
+
     const x = +evt.target.id;
 
     // get next spot in column (if none, ignore click)
@@ -183,6 +205,13 @@ class Game {
     }
   }
 
+}
+
+class Player {
+  constructor(player, color) {
+    this.player = player;
+    this.color = color;
+  }
 }
 
 new Game(6, 7);
