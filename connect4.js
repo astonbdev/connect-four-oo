@@ -18,32 +18,24 @@ class Game {
     this.currPlayer = 1; // active player: 1 or 2
     this.board = []; // array of rows, each row is array of cells  (board[y][x])
 
-    
+
     this.makeBoard();
 
     this.makeForm();
     //this.makeHtmlBoard();
     this.makeStartButton();
-    
+
   }
 
   /** makeBoard: create in-JS board structure:
  *   board = array of rows, each row is array of cells  (board[y][x])
  */
 
-  makeStartButton() {
-    const startBtn = document.createElement("button");
-    startBtn.setAttribute("id", "startBtn");
-    startBtn.innerText = "Start Game";
 
-    startBtn.addEventListener("submit", this.makeGame.bind(this));
-
-    document.querySelector("#game").append(startBtn);
-  }
 
   makeForm() {
-    const form = document.createElement("form");
-    form.setAttribute("type", "submit");
+    // const form = document.createElement("form");
+    // form.setAttribute("type", "submit");
 
     const player1Color = document.createElement("input");
     player1Color.setAttribute("id", "player1Color");
@@ -53,19 +45,22 @@ class Game {
     player2Color.setAttribute("id", "player2Color");
     player2Color.setAttribute("placeholder", "Enter Player Color String");
 
-    document.querySelector("#game").append(form);
+    document.querySelector("#game").append(player1Color);
+    document.querySelector("#game").append(player2Color);
 
-    form.append(player1Color);
-    form.append(player2Color);
-
-
+    // form.append(player1Color);
+    // form.append(player2Color);
 
   }
 
-  makeGame() {
-    this.player1 = new Player(document.querySelector("#player1Color").value, 1);
-    this.player2 = new Player(docuument.querySelector("#player2Color").value, 2);
+  makeGame(evt) {
+    console.log("makeGame ran")
+    evt.preventDefault();
 
+    this.player1 = new Player(1, document.querySelector("#player1Color").value);
+    this.player2 = new Player(2, document.querySelector("#player2Color").value);
+
+    console.log(document.querySelector("#player1Color").value)
     console.log(this.player1.color);
     console.log(this.player2.color);
 
@@ -80,6 +75,17 @@ class Game {
     const strtBtn = document.querySelector("#startBtn");
     strtBtn.innerText = "Reset Game";
 
+  }
+
+  makeStartButton() {
+    const startBtn = document.createElement("button");
+    startBtn.setAttribute("id", "startBtn");
+    // startBtn.setAttribute("type", "submit");
+    startBtn.innerText = "Start Game";
+
+    startBtn.addEventListener("click", this.makeGame.bind(this));
+
+    document.querySelector("#game").append(startBtn);
   }
 
   makeBoard() {
