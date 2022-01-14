@@ -10,20 +10,41 @@ class Game {
   /*ask wehther or not its oaky to declare properties at the top*/
 
 
-  constructor(x, y) {
-    this.WIDTH = x;
-    this.HEIGHT = y;
+  constructor(width, height) {
+    this.WIDTH = width;
+    this.HEIGHT = height;
 
     this.currPlayer = 1; // active player: 1 or 2
     this.board = []; // array of rows, each row is array of cells  (board[y][x])
 
     this.makeBoard();
-    this.makeHtmlBoard();
+    //this.makeHtmlBoard();
+    this.makeStartButton();
   }
 
   /** makeBoard: create in-JS board structure:
  *   board = array of rows, each row is array of cells  (board[y][x])
  */
+
+  makeStartButton(){
+    const startBtn = document.createElement("button");
+    startBtn.setAttribute("id", "startBtn");
+    startBtn.innerText = "Start Game";
+
+    startBtn.addEventListener("click", this.makeGame.bind(this));
+
+    document.querySelector("#game").prepend(startBtn);
+  }
+
+  makeGame(){
+    this.board = [];
+    this.currPlayer = 1;
+    this.makeHtmlBoard();
+    this.makeBoard();
+
+    const strtBtn = document.querySelector("#startBtn");
+    strtBtn.innerText = "Reset Game";
+  }
 
   makeBoard() {
     for (let y = 0; y < this.HEIGHT; y++) {
@@ -129,12 +150,8 @@ class Game {
   /** checkForWin: check board cell-by-cell for "does a win start here?" */
 
   checkForWin() {
-    let HEIGHT = this.HEIGHT;
-    let WIDTH = this.WIDTH;
-    let board = this.board;
-    let currPlayer = this.currPlayer;
 
-    function _win(cells) {
+    const _win = (cells) => {
       // Check four cells to see if they're all color of current player
       //  - cells: list of four (y, x) cells
       //  - returns true if all are legal coordinates & all match currPlayer
@@ -142,10 +159,10 @@ class Game {
       return cells.every(
         ([y, x]) =>
           y >= 0 &&
-          y < HEIGHT &&
+          y < this.HEIGHT &&
           x >= 0 &&
-          x < WIDTH &&
-          board[y][x] === currPlayer
+          x < this.WIDTH &&
+          this.board[y][x] === this.currPlayer
       );
     }
 
