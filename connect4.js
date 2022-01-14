@@ -18,9 +18,13 @@ class Game {
     this.currPlayer = 1; // active player: 1 or 2
     this.board = []; // array of rows, each row is array of cells  (board[y][x])
 
+    
     this.makeBoard();
+
+    this.makeForm();
     //this.makeHtmlBoard();
     this.makeStartButton();
+    
   }
 
   /** makeBoard: create in-JS board structure:
@@ -32,26 +36,39 @@ class Game {
     startBtn.setAttribute("id", "startBtn");
     startBtn.innerText = "Start Game";
 
-    startBtn.addEventListener("click", this.makeGame.bind(this));
+    startBtn.addEventListener("submit", this.makeGame.bind(this));
 
-    document.querySelector("#game").prepend(startBtn);
+    document.querySelector("#game").append(startBtn);
   }
 
   makeForm() {
     const form = document.createElement("form");
+    form.setAttribute("type", "submit");
+
     const player1Color = document.createElement("input");
     player1Color.setAttribute("id", "player1Color");
-    player1Color.setAttribute("placeholder");
+    player1Color.setAttribute("placeholder", "Enter Player Color String");
 
     const player2Color = document.createElement("input");
     player2Color.setAttribute("id", "player2Color");
-    player2Color.setAttribute("placeholder");
+    player2Color.setAttribute("placeholder", "Enter Player Color String");
+
+    document.querySelector("#game").append(form);
+
+    form.append(player1Color);
+    form.append(player2Color);
 
 
 
   }
 
   makeGame() {
+    this.player1 = new Player(document.querySelector("#player1Color").value, 1);
+    this.player2 = new Player(docuument.querySelector("#player2Color").value, 2);
+
+    console.log(this.player1.color);
+    console.log(this.player2.color);
+
     this.board = [];
     document.querySelector('#board').innerHTML = "";
     this.gameOver = 0;
